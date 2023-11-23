@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         直播全屏按钮
+// @name         流媒体全屏
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -9,6 +9,7 @@
 // @match        https://www.bilibili.com/video/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=douyu.com
 // @grant        none
+// @run-at       document-idle
 // ==/UserScript==
 
 (function () {
@@ -45,7 +46,7 @@
         // 执行完成后移除监听
         setTimeout(function () {
             observer.disconnect();
-        }, 10000);
+        }, 12000);
     }
 
     function timeout(func) {
@@ -53,7 +54,7 @@
             func();
             firstClick = null;
             console.log('sane click');
-        }, 2000);
+        }, 1200);
     }
 
     function douyuAuto() {
@@ -61,7 +62,9 @@
         if (fullscreenPageButton) {
             fullscreenPageButton.click();
             fullscreenPageButton = null;
-            
+
+            // #bc3 >
+            // document.querySelector("#bc276 > div.layout-Main > div.layout-Player > div.layout-Player-main > div.layout-Player-video > div.layout-Player-asideToggle > label")
             const slidePageButton = document.querySelector("div.layout-Main > div.layout-Player > div.layout-Player-main > div.layout-Player-video > div.layout-Player-asideToggle > label > i")
             if (slidePageButton) {
                 slidePageButton.click();
