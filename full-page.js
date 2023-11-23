@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         流媒体全屏
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1.0
 // @description  try to take over the world!
 // @author       sane
 // @match        https://www.douyu.com/topic/*
@@ -9,6 +9,7 @@
 // @match        https://www.bilibili.com/video/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=douyu.com
 // @updateURL    https://raw.githubusercontent.com/SaneHe/tampermonkey/main/full-page.js
+// @downloadURL  https://raw.githubusercontent.com/SaneHe/tampermonkey/main/full-page.js
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
