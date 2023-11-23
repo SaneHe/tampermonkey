@@ -8,6 +8,7 @@
 // @match        https://www.douyu.com/*
 // @match        https://www.bilibili.com/video/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=douyu.com
+// @updateURL    https://raw.githubusercontent.com/SaneHe/tampermonkey/main/full-page.js
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
@@ -89,7 +90,7 @@
 
     function bilibiliAuto() {
         let biliPageFullButton = document.querySelector("#bilibili-player > div > div > div.bpx-player-primary-area > div.bpx-player-video-area > div.bpx-player-control-wrap > div.bpx-player-control-entity > div.bpx-player-control-bottom > div.bpx-player-control-bottom-right > div.bpx-player-ctrl-btn.bpx-player-ctrl-web > div.bpx-player-ctrl-btn-icon.bpx-player-ctrl-web-enter");
-        
+
         if (!biliPageFullButton) {
             return false;
         }
