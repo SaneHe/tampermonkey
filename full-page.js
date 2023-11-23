@@ -69,13 +69,14 @@
     }
 
     function douyuAuto() {
-        var fullscreenPageButton = document.querySelector("#__h5player > div:nth-child(12) > div > div > div.right-e7ea5d > div.wfs-2a8e83");
+        let fullscreenPageButton = document.querySelector("#__h5player > div:nth-child(12) > div > div > div.right-e7ea5d > div.wfs-2a8e83");
+
         if (fullscreenPageButton) {
             fullscreenPageButton.click();
             fullscreenPageButton = null;
 
             // 视频侧边
-            const slidePageButton = document.querySelector("div.layout-Player > div.layout-Player-main > div.layout-Player-video > div.layout-Player-asideToggle > label")
+            const slidePageButton = document.querySelector("div.layout-Player > div.layout-Player-main > div.layout-Player-video > div.layout-Player-asideToggle > label");
             if (slidePageButton) {
                 slidePageButton.click();
             }
@@ -87,8 +88,8 @@
     }
 
     function bilibiliAuto() {
-        var biliPageFullButton = document.querySelector("#bilibili-player > div > div > div.bpx-player-primary-area > div.bpx-player-video-area > div.bpx-player-control-wrap > div.bpx-player-control-entity > div.bpx-player-control-bottom > div.bpx-player-control-bottom-right > div.bpx-player-ctrl-btn.bpx-player-ctrl-web > div.bpx-player-ctrl-btn-icon.bpx-player-ctrl-web-enter")
-
+        let biliPageFullButton = document.querySelector("#bilibili-player > div > div > div.bpx-player-primary-area > div.bpx-player-video-area > div.bpx-player-control-wrap > div.bpx-player-control-entity > div.bpx-player-control-bottom > div.bpx-player-control-bottom-right > div.bpx-player-ctrl-btn.bpx-player-ctrl-web > div.bpx-player-ctrl-btn-icon.bpx-player-ctrl-web-enter");
+        
         if (!biliPageFullButton) {
             return false;
         }
