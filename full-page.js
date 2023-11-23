@@ -9,23 +9,28 @@
 // @match        https://www.bilibili.com/video/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=douyu.com
 // @grant        none
-// @run-at       document-idle
+// @run-at       document-end
 // ==/UserScript==
 
 (function () {
     'use strict';
 
-    // 首次点击判断
-    var firstClick = true;
+    // 定时器最大执行次数
+    const maxCount = 16;
+    // 定时器轮训毫秒时间
+    const timerMs = 800;
     // 当前一级域名
-    var host = window.location.hostname.split('.').slice(-2).join('.');
+    const host = window.location.hostname.split('.').slice(-2).join('.');
 
     const hostMapping = {
-        "douyu.com": { "func": "observe", "param": "douyuAuto" },
+        "douyu.com": { "func": "timeout", "param": "douyuAuto" },
         "bilibili.com": { "func": "timeout", "param": "bilibiliAuto" },
     };
 
     function observe(func) {
+        // 首次点击判断
+        let firstClick = true;
+
         const observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 if (mutation.type != 'childList' && !firstClick) {
@@ -50,11 +55,17 @@
     }
 
     function timeout(func) {
-        setTimeout(function () {
-            func();
-            firstClick = null;
-            console.log('sane click');
-        }, 1200);
+        // 执行次数
+        let count = 0;
+
+        const timer = setInterval(() => {
+            console.log(`Timer executed ${++count} time(s)`);
+
+            if (count === maxCount || func()) {
+                clearInterval(timer); // 清除定时器
+                console.log(`Timer stopped after reaching the Timer ${count} count.`);
+            }
+        }, timerMs);
     }
 
     function douyuAuto() {
@@ -63,9 +74,8 @@
             fullscreenPageButton.click();
             fullscreenPageButton = null;
 
-            // #bc3 >
-            // document.querySelector("#bc276 > div.layout-Main > div.layout-Player > div.layout-Player-main > div.layout-Player-video > div.layout-Player-asideToggle > label")
-            const slidePageButton = document.querySelector("div.layout-Main > div.layout-Player > div.layout-Player-main > div.layout-Player-video > div.layout-Player-asideToggle > label > i")
+            // 视频侧边
+            const slidePageButton = document.querySelector("div.layout-Player > div.layout-Player-main > div.layout-Player-video > div.layout-Player-asideToggle > label")
             if (slidePageButton) {
                 slidePageButton.click();
             }
@@ -78,16 +88,21 @@
 
     function bilibiliAuto() {
         var biliPageFullButton = document.querySelector("#bilibili-player > div > div > div.bpx-player-primary-area > div.bpx-player-video-area > div.bpx-player-control-wrap > div.bpx-player-control-entity > div.bpx-player-control-bottom > div.bpx-player-control-bottom-right > div.bpx-player-ctrl-btn.bpx-player-ctrl-web > div.bpx-player-ctrl-btn-icon.bpx-player-ctrl-web-enter")
-        if (biliPageFullButton) {
-            biliPageFullButton.click();
-            biliPageFullButton = null;
-            const videoPlayButton = document.querySelector("#bilibili-player > div > div > div.bpx-player-primary-area > div.bpx-player-video-area > div.bpx-player-video-perch > div > video");
-            videoPlayButton.click();
+
+        if (!biliPageFullButton) {
+            return false;
         }
+
+        biliPageFullButton.click();
+        biliPageFullButton = null;
+        const videoPlayButton = document.querySelector("#bilibili-player > div > div > div.bpx-player-primary-area > div.bpx-player-video-area > div.bpx-player-video-perch > div > video");
+        videoPlayButton.click();
+
+        return true;
     }
 
     const autoScriptFuncName = hostMapping[host];
     if (autoScriptFuncName) {
-        eval(autoScriptFuncName["func"] + '(' + autoScriptFuncName['param'] +')');
+        eval(autoScriptFuncName["func"] + '(' + autoScriptFuncName['param'] + ')');
     }
 })();
