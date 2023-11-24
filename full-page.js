@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         流媒体全屏
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  try to take over the world!
 // @author       sane
 // @match        https://www.douyu.com/topic/*
 // @match        https://www.douyu.com/*
 // @match        https://www.bilibili.com/video/*
+// @match        https://dash.ibcn.space/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=douyu.com
 // @updateURL    https://raw.githubusercontent.com/SaneHe/tampermonkey/main/full-page.js
 // @downloadURL  https://raw.githubusercontent.com/SaneHe/tampermonkey/main/full-page.js
@@ -17,15 +18,18 @@
 (function () {
     'use strict';
 
+    // 定时器执行次数
+    let count = 0;
     // 定时器最大执行次数
     const maxCount = 16;
     // 定时器轮训毫秒时间
     const timerMs = 800;
     // 当前一级域名
     const host = window.location.hostname.split('.').slice(-2).join('.');
-
+    // 域名映射
     const hostMapping = {
         "douyu.com": { "func": "timeout", "param": "douyuAuto" },
+        "ibcn.space": { "func": "timeout", "param": "ibcnAuto" },
         "bilibili.com": { "func": "timeout", "param": "bilibiliAuto" },
     };
 
@@ -57,9 +61,6 @@
     }
 
     function timeout(func) {
-        // 执行次数
-        let count = 0;
-
         const timer = setInterval(() => {
             console.log(`Timer executed ${++count} time(s)`);
 
@@ -102,6 +103,24 @@
         videoPlayButton.click();
 
         return true;
+    }
+
+    function ibcnAuto() {
+        // 用户面板
+        let userDashboardButton = document.querySelector("body > div > header > div.container > div > div.button-header > a:nth-child(1)");
+        if (userDashboardButton) {
+            userDashboardButton.click();
+            userDashboardButton = null;
+        }
+
+        const checked = 'check 今日已签到';
+        let signButton = document.querySelector("body > main > div.container > section > div:nth-child(2) > div.col-xx-12.col-sm-5 > div:nth-child(2) > div > div:nth-child(2) > div > div > p");
+        if (signButton && signButton.textContent != checked) {
+            signButton.click();
+            return true;
+        }
+
+        return false;
     }
 
     const autoScriptFuncName = hostMapping[host];
