@@ -113,10 +113,12 @@
             userDashboardButton = null;
         }
 
-        const checked = 'check 今日已签到';
-        let signButton = document.querySelector("body > main > div.container > section > div:nth-child(2) > div.col-xx-12.col-sm-5 > div:nth-child(2) > div > div:nth-child(2) > div > div > p");
-        if (signButton && signButton.textContent != checked) {
-            signButton.click();
+        let todaySignButton = document.querySelector("#checkin");
+        let checkedSignButton = document.querySelector("body > main > div.container > section > div:nth-child(2) > div.col-xx-12.col-sm-5 > div:nth-child(2) > div > div:nth-child(2) > div > div > p");
+        if (!checkedSignButton && todaySignButton) {
+            todaySignButton.click();
+            todaySignButton = checkedSignButton = null;
+            document.querySelector("#result_ok").click();
             return true;
         }
 
